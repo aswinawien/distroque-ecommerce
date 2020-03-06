@@ -1,11 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 import "./category-item.styles.scss";
 
-const CategoryItem = ({ title, subtitle, imageUrl, size }) => (
+const CategoryItem = ({
+  title,
+  subtitle,
+  imageUrl,
+  size,
+  linkUrl,
+  history,
+  match
+}) => (
   <React.Fragment>
-    <div className={`${size} category-item`}>
+    <div
+      className={`${size} category-item`}
+      onClick={() => {
+        history.push(`${linkUrl}`);
+      }}
+    >
       <div
         className="background-image"
         style={{
@@ -27,4 +41,4 @@ CategoryItem.propTypes = {
   size: PropTypes.any
 };
 
-export default CategoryItem;
+export default withRouter(CategoryItem);

@@ -3,6 +3,21 @@ body {
   font-family: "Noto Sans", "Poppins", "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 0.5rem;
+  display: none;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #121258;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 8px;
 }
 
 code {

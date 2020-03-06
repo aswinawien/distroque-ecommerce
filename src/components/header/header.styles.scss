@@ -1,0 +1,30 @@
+.header {
+  height: 64px;
+  width: 100vw;
+  background-color: white;
+  border-bottom: 1px solid #eaeaea 0.7;
+  display: flex;
+  align-items: center;
+  padding-left: 75px;
+
+  .logo {
+    height: 100%;
+    width: 150px;
+    object-fit: cover;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .menu-container {
+    position: absolute;
+    right: 0;
+    display: flex;
+    top: 15px;
+    padding-right: 100px;
+
+    button {
+      margin-bottom: 0;
+      margin-left: 16px;
+    }
+  }
+}

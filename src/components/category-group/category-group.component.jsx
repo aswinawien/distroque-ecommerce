@@ -7,8 +7,8 @@ import "./category-group.styles.scss";
 const CategoryGroup = ({ categories }) => (
   <React.Fragment>
     <div className="category-group">
-      {categories.map(({ id, size, ...rest }) => (
-        <CategoryItem key={id} size={size} {...rest} />
+      {categories.map(({ id, ...rest }) => (
+        <CategoryItem key={id} {...rest} />
       ))}
     </div>
   </React.Fragment>
