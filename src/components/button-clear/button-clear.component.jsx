@@ -10,7 +10,8 @@ const ButtonClear = ({ color, title, onClick }) => (
       style={{
         color: `${color}`
       }}
-      onClick={() => onClick}
+      onTouchStart={onClick}
+      onClick={onClick}
     >
       {title}
     </button>

@@ -1,3 +1,11 @@
 .content {
   background-color: #eaeaea;
+  padding: 20px 60px;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+* {
+  box-sizing: border-box;
 }
