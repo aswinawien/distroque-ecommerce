@@ -12,19 +12,23 @@
     width: 150px;
     object-fit: cover;
     cursor: pointer;
-    display: inline-block;
   }
 
   .menu-container {
     position: absolute;
     right: 0;
     display: flex;
-    top: 15px;
+    align-items: flex-end;
+    top: 25px;
     padding-right: 100px;
 
     button {
       margin-bottom: 0;
       margin-left: 16px;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

@@ -2,16 +2,9 @@ import React from "react";
 
 import { SubmitButtonContainer } from "./submit-button.styles";
 
-const SubmitButton = ({ onChange, label, isGoogleSignIn }) => (
+const SubmitButton = ({ label, ...props }) => (
   <React.Fragment>
-    <SubmitButtonContainer
-      type="submit"
-      isGoogleSignIn={isGoogleSignIn}
-      onClick={e => onChange(e)}
-      onTouchStart={e => onChange(e)}
-    >
-      {label}
-    </SubmitButtonContainer>
+    <SubmitButtonContainer {...props}>{label}</SubmitButtonContainer>
   </React.Fragment>
 );
 

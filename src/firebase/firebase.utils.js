@@ -20,7 +20,10 @@ const firestore = FirebaseApp.firestore();
 
 const provider = new FirebaseApp.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
-const signInWithGoogle = () => auth.signInWithPopup(provider);
+const signInWithGoogle = () =>
+  auth.signInWithPopup(provider).then(res => {
+    window.location = "/";
+  });
 
 const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;

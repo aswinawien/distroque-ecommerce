@@ -12,12 +12,14 @@ import SigInPage from "./pages/sign-in/sign-in.page";
 import SignUpPage from "./pages/sign-up/sign-up.page";
 
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import CartModal from "./components/cart-modal/cart-modal.component";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: null
+      currentUser: null,
+      openModal: false
     };
   }
 
@@ -44,25 +46,52 @@ class App extends React.Component {
     });
   }
 
+  handleOpenModalCart() {
+    this.setState(
+      {
+        openModal: true
+      },
+      () => {
+        console.log(this.state.openModal);
+      }
+    );
+  }
+
+  handleCloseModalCart() {
+    this.setState(
+      {
+        openModal: false
+      },
+      () => {
+        console.log(this.state.openModal);
+      }
+    );
+  }
+
   componentWillUnmount() {
     this.unsubscribeAuth();
   }
 
   render() {
     return (
-      <>
-        <Header authenticated={this.state.currentUser} />
+      <div className="app">
+        <Header
+          authenticated={this.state.currentUser}
+          handleOpenModal={this.handleOpenModalCart.bind(this)}
+        />
+        <CartModal
+          isOpen={this.state.openModal}
+          closeModal={this.handleCloseModalCart.bind(this)}
+        />
         <Switch>
-          <div className="content">
-            <Route path="/" exact component={HomePage} />
-            <Route exact path="/shop" component={ShopPage} />
-            <Route path="/shop/:linkUrl" component={ShopPage} />
-            <Route path="/sign-in" component={SigInPage} />
-            <Route path="/sign-up" component={SignUpPage} />
-          </div>
+          <Route path="/" exact component={HomePage} />
+          <Route exact path="/shop" component={ShopPage} />
+          <Route path="/shop/:linkUrl" component={ShopPage} />
+          <Route path="/sign-in" component={SigInPage} />
+          <Route path="/sign-up" component={SignUpPage} />
         </Switch>
         {/* <Footer /> */}
-      </>
+      </div>
     );
   }
 }

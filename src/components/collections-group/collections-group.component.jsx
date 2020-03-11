@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import CollectionsItem from "../collections-item/collections-item.component";
+import "./component-group.styles.scss";
 
 const CollectionsGroup = ({ collections, maxShown }) => {
   return (

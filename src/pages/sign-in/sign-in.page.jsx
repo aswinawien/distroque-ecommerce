@@ -5,6 +5,7 @@ import "./sign-in.styles.scss";
 import InputLabelAnimated from "./../../components/input-label-animated/input-label-animated.component";
 import SubmitButton from "../../components/submit-button/submit-button.component";
 import { signInWithGoogle, auth } from "../../firebase/firebase.utils";
+import { Redirect } from "react-router-dom";
 
 class SigInPage extends React.Component {
   constructor(props) {
@@ -19,15 +20,20 @@ class SigInPage extends React.Component {
   handleSubmit = async event => {
     event.preventDefault();
     const { email, password } = this.state;
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      this.setState({
-        email: "",
-        password: ""
-      });
-    } catch (e) {
+    await auth.signInWithEmailAndPassword(email, password).then(res => {
+      const { from } = this.props.location.state;
+      if (from !== null) {
+        return <Redirect to={from} />;
+      } else {
+        return <Redirect to="/" />;
+      }
+    });
+    this.setState({
+      email: "",
+      password: ""
+    }).catch(e => {
       console.log("error logging in user with email and password", e.message);
-    }
+    });
   };
 
   handleChange = event => {
@@ -66,11 +72,11 @@ class SigInPage extends React.Component {
               id={"password-input"}
             />
             <SubmitButton
-              onChange={this.handleSubmit.bind(this)}
+              onClick={this.handleSubmit.bind(this)}
               label="Sign In"
             />
             <SubmitButton
-              onChange={signInWithGoogle}
+              onClick={signInWithGoogle}
               label="Sign in with Google"
               isGoogleSignIn
             />

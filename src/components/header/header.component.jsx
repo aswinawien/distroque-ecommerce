@@ -4,9 +4,10 @@ import { withRouter } from "react-router-dom";
 import Logo from "../../assets/distroque.svg";
 import "./header.styles.scss";
 import ButtonClear from "../button-clear/button-clear.component";
+import CartIcon from "../cart-icon/cart-icon.component";
 import { auth } from "../../firebase/firebase.utils";
 
-const Header = ({ authenticated, history }) => {
+const Header = ({ authenticated, history, handleOpenModal }) => {
   return (
     <React.Fragment>
       <div className="header">
@@ -49,6 +50,9 @@ const Header = ({ authenticated, history }) => {
               }}
             />
           ) : null}
+          <div onClick={handleOpenModal}>
+            <CartIcon itemCount={0} />
+          </div>
         </div>
       </div>
     </React.Fragment>

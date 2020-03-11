@@ -1,23 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./input-label-animated.styles.scss";
+import {
+  FormInputContainer,
+  FormInputLabel,
+  GroupContainer
+} from "./input-label-animated.styles.jsx";
 
 //  props : onChange, label, name, id, value, required, type
 const InputLabelAnimated = ({ label, value, ...props }) => {
   console.log("value", value);
   return (
     <React.Fragment>
-      <div className="form-item">
-        <input {...props} className="form-input" value={value} />
+      <GroupContainer>
+        <FormInputContainer {...props} value={value} />
         {label ? (
-          <label
-            className={`form-input-label ${value.length >
-              0} ? shrink form-input-label : form-input-label`}
-          >
+          <FormInputLabel className={value.length ? "shrink" : ""}>
             {label}
-          </label>
+          </FormInputLabel>
         ) : null}
-      </div>
+      </GroupContainer>
     </React.Fragment>
   );
 };

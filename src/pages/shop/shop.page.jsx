@@ -29,7 +29,6 @@ const ShopPage = ({ location }) => {
           } else {
             return (
               <React.Fragment>
-                <h1>Collections</h1>
                 <CollectionsGroup collections={SHOP_DATA} maxShown={4} />
               </React.Fragment>
             );
