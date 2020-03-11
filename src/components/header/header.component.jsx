@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import Logo from "../../assets/distroque.svg";
@@ -7,7 +8,7 @@ import ButtonClear from "../button-clear/button-clear.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 import { auth } from "../../firebase/firebase.utils";
 
-const Header = ({ authenticated, history, handleOpenModal }) => {
+const Header = ({ currentUser, history, handleOpenModal }) => {
   return (
     <React.Fragment>
       <div className="header">
@@ -19,7 +20,7 @@ const Header = ({ authenticated, history, handleOpenModal }) => {
         />
 
         <div className="menu-container">
-          {!authenticated ? (
+          {!currentUser ? (
             <React.Fragment>
               <ButtonClear
                 title="Sign In"
@@ -40,7 +41,7 @@ const Header = ({ authenticated, history, handleOpenModal }) => {
             color={`black`}
             onClick={() => history.push("/shop")}
           />
-          {authenticated ? (
+          {currentUser ? (
             <ButtonClear
               title="Sign Out"
               color={`black`}
@@ -59,4 +60,8 @@ const Header = ({ authenticated, history, handleOpenModal }) => {
   );
 };
 
-export default withRouter(Header);
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+});
+
+export default connect(mapStateToProps, null)(withRouter(Header));

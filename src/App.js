@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 
 import "./App.scss";
 
@@ -10,62 +11,49 @@ import Header from "./components/header/header.component";
 import Footer from "./components/footer/footer.component";
 import SigInPage from "./pages/sign-in/sign-in.page";
 import SignUpPage from "./pages/sign-up/sign-up.page";
+import CartModal from "./components/cart-modal/cart-modal.component";
 
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import CartModal from "./components/cart-modal/cart-modal.component";
+import { setCurrentUser } from "./redux/user/user.actions";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: null,
       openModal: false
     };
   }
 
   unsubscribeAuth = null;
   componentDidMount() {
+    const { setCurrentUser } = this.props;
     this.unsubscribeAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth !== null) {
         console.log(userAuth);
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot(snapshot => {
           console.log("snapshot", snapshot.data());
-          this.setState({
-            currentUser: {
-              id: snapshot.id,
-              ...snapshot.data()
-            }
+          setCurrentUser({
+            id: snapshot.id,
+            ...snapshot.data()
           });
         });
       } else {
-        this.setState({
-          currentUser: null
-        });
+        setCurrentUser(null);
       }
     });
   }
 
   handleOpenModalCart() {
-    this.setState(
-      {
-        openModal: true
-      },
-      () => {
-        console.log(this.state.openModal);
-      }
-    );
+    this.setState({
+      openModal: true
+    });
   }
 
   handleCloseModalCart() {
-    this.setState(
-      {
-        openModal: false
-      },
-      () => {
-        console.log(this.state.openModal);
-      }
-    );
+    this.setState({
+      openModal: false
+    });
   }
 
   componentWillUnmount() {
@@ -75,14 +63,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <Header
-          authenticated={this.state.currentUser}
-          handleOpenModal={this.handleOpenModalCart.bind(this)}
-        />
-        <CartModal
-          isOpen={this.state.openModal}
-          closeModal={this.handleCloseModalCart.bind(this)}
-        />
+        <Header handleOpenModal={this.handleOpenModalCart.bind(this)} />
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route exact path="/shop" component={ShopPage} />
@@ -90,10 +71,13 @@ class App extends React.Component {
           <Route path="/sign-in" component={SigInPage} />
           <Route path="/sign-up" component={SignUpPage} />
         </Switch>
-        {/* <Footer /> */}
       </div>
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: currentUser => dispatch(setCurrentUser(currentUser))
+});
+
+export default connect(null, mapDispatchToProps)(App);

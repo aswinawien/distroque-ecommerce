@@ -21,12 +21,12 @@ class SigInPage extends React.Component {
     event.preventDefault();
     const { email, password } = this.state;
     await auth.signInWithEmailAndPassword(email, password).then(res => {
-      const { from } = this.props.location.state;
-      if (from !== null) {
-        return <Redirect to={from} />;
-      } else {
-        return <Redirect to="/" />;
-      }
+      // const { from } = this.props.location.state;
+      // if (from !== null) {
+      //   return <Redirect to={from} />;
+      // } else {
+      return <Redirect to="/" />;
+      // }
     });
     this.setState({
       email: "",
