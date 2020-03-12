@@ -70,8 +70,7 @@ class App extends React.Component {
         <Header handleOpenModal={this.handleOpenModalCart.bind(this)} />
         <Switch>
           <Route path="/" exact component={HomePage} />
-          <Route exact path="/shop" component={ShopPage} />
-          <Route path="/shop/:linkUrl" component={ShopPage} />
+          <Route path="/shop" component={ShopPage} />
           <Route
             exact
             path="/sign-in"

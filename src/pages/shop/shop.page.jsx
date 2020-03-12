@@ -1,42 +1,22 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
 import CollectionsGroup from "../../components/collections-group/collections-group.component";
-import { SHOP_DATA } from "../../mocks/shop-data";
-
-const ShopPage = ({ location }) => {
+import CollectionPage from "../collection/collection.page";
+import { selectCollections } from "../../redux/shop/shop.selectors";
+const ShopPage = ({ match }) => {
   return (
     <React.Fragment>
-      <Route
-        path={`${location.pathname}`}
-        render={({ location }) => {
-          let collection = location.pathname.split("/")[2];
-          if (collection) {
-            return (
-              <CollectionsGroup
-                maxShown={
-                  SHOP_DATA[
-                    SHOP_DATA.map(({ routeName }) => routeName).indexOf(
-                      collection
-                    )
-                  ].items.length
-                }
-                collections={SHOP_DATA.filter(
-                  item => item.routeName === collection
-                )}
-              />
-            );
-          } else {
-            return (
-              <React.Fragment>
-                <CollectionsGroup collections={SHOP_DATA} maxShown={4} />
-              </React.Fragment>
-            );
-          }
-        }}
-      />
+      <Route exact path={`${match.path}`} component={CollectionsGroup} />
+      <Route path={`${match.path}/:collectionId`} component={CollectionPage} />
     </React.Fragment>
   );
 };
 
-export default ShopPage;
+const mapStateToProps = createStructuredSelector({
+  collections: selectCollections
+});
+
+export default connect(mapStateToProps)(ShopPage);

@@ -3,12 +3,10 @@ import React from "react";
 import CategoryGroup from "../../components/category-group/category-group.component";
 import "./home.styles.scss";
 
-import { categories } from "./../../mocks/categories";
-
 const HomePage = () => (
   <React.Fragment>
     <div className="homepage">
-      <CategoryGroup categories={categories} />
+      <CategoryGroup />
     </div>
   </React.Fragment>
 );
