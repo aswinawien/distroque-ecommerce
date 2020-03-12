@@ -23,8 +23,8 @@ const CheckoutPage = ({ cartItems, total }) => {
           <th>Remove</th>
         </thead>
         <tbody>
-          {cartItems.map(({ id, ...props }) => (
-            <CheckoutItem key={id} {...props} />
+          {cartItems.map(item => (
+            <CheckoutItem key={item.id} cartItem={item} />
           ))}
         </tbody>
       </table>

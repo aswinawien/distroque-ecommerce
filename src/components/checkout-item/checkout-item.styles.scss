@@ -1,0 +1,16 @@
+.checkout-item {
+  .quantity {
+    display: flex;
+    flex-direction: row;
+    .arrow {
+      cursor: pointer;
+    }
+    .value {
+      margin: 0 10px;
+    }
+  }
+  .remove-button {
+    padding-left: 12px;
+    cursor: pointer;
+  }
+}
