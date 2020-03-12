@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import "./product-item.styles.scss";
 import AddButton from "../submit-button/submit-button.component";
+import { addCartItem } from "../../redux/cart/cart.actions";
 
-const ProductItem = ({ name, id, price, imageUrl }) => {
+const ProductItem = ({ item, addItem }) => {
+  const { name, id, price, imageUrl } = item;
   return (
     <div className="product-item">
       <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
@@ -16,12 +19,14 @@ const ProductItem = ({ name, id, price, imageUrl }) => {
         label={"Add to Cart"}
         inverted
         className="add-button"
-        onClick={() => {
-          console.log("added to cart!");
-        }}
+        onClick={() => addItem(item)}
       />
     </div>
   );
 };
 
-export default ProductItem;
+const mapDispatchToProps = dispatch => ({
+  addItem: item => dispatch(addCartItem(item))
+});
+
+export default connect(null, mapDispatchToProps)(ProductItem);

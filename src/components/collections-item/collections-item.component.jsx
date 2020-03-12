@@ -12,8 +12,8 @@ const CollectionsItem = ({ items, title, maxShown }) => {
         <div className="collections-item">
           {items
             .filter((item, idx) => idx < maxShown)
-            .map(({ id, ...props }) => (
-              <ProductItem key={id} {...props} />
+            .map(item => (
+              <ProductItem key={item.id} item={item} />
             ))}
         </div>
       </div>
