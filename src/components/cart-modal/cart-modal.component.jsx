@@ -9,13 +9,7 @@ import SubmitButton from "../submit-button/submit-button.component";
 Modal.setAppElement(document.getElementById("#root"));
 
 const CartModal = ({ isOpen, closeModal }) => {
-  return (
-    <React.Fragment>
-      <AnimatedModal isOpen={isOpen} onRequestClose={closeModal}>
-        <h2>Test</h2>
-      </AnimatedModal>
-    </React.Fragment>
-  );
+  return <React.Fragment></React.Fragment>;
 };
 
 export default CartModal;

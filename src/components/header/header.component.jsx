@@ -5,10 +5,11 @@ import { withRouter } from "react-router-dom";
 import Logo from "../../assets/distroque.svg";
 import "./header.styles.scss";
 import ButtonClear from "../button-clear/button-clear.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import CartIcon from "../cart-icon/cart-icon.component";
 import { auth } from "../../firebase/firebase.utils";
 
-const Header = ({ currentUser, history, handleOpenModal }) => {
+const Header = ({ currentUser, history, hidden }) => {
   return (
     <React.Fragment>
       <div className="header">
@@ -51,17 +52,17 @@ const Header = ({ currentUser, history, handleOpenModal }) => {
               }}
             />
           ) : null}
-          <div onClick={handleOpenModal}>
-            <CartIcon itemCount={0} />
-          </div>
+          <CartIcon itemCount={0} />
         </div>
+        {hidden ? null : <CartDropdown />}
       </div>
     </React.Fragment>
   );
 };
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden
 });
 
 export default connect(mapStateToProps, null)(withRouter(Header));
