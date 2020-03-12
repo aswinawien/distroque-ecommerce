@@ -6,9 +6,12 @@ import { withRouter } from "react-router-dom";
 import "./cart-dropdown.styles.scss";
 import SubmitButton from "../submit-button/submit-button.component";
 import CartItem from "../cart-item/cart-item.component";
+
 import { selectCartItems } from "../../redux/cart/cart.selector";
 
-const CartDropdown = ({ cartItems, history }) => (
+import { toggleCartHidden } from "../../redux/cart/cart.actions";
+
+const CartDropdown = ({ cartItems, history, dispatch }) => (
   <React.Fragment>
     <div className="cart-dropdown">
       <div className="cart-items">
@@ -20,7 +23,10 @@ const CartDropdown = ({ cartItems, history }) => (
       </div>
       <SubmitButton
         label="GO TO CHECKOUT"
-        onClick={() => history.push("/checkout")}
+        onClick={() => {
+          history.push("/checkout");
+          dispatch(toggleCartHidden());
+        }}
       />
     </div>
   </React.Fragment>
@@ -29,5 +35,6 @@ const CartDropdown = ({ cartItems, history }) => (
 const mapStateToProps = createStructuredSelector({
   cartItems: selectCartItems
 });
+
 // Passing the props argument : Out <-- Inside
 export default withRouter(connect(mapStateToProps)(CartDropdown));
