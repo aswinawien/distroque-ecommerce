@@ -52,7 +52,7 @@ const Header = ({ currentUser, history, hidden }) => {
               }}
             />
           ) : null}
-          <CartIcon itemCount={0} />
+          <CartIcon />
         </div>
         {hidden ? null : <CartDropdown />}
       </div>
