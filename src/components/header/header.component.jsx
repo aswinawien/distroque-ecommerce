@@ -51,7 +51,6 @@ const Header = ({ currentUser, history, hidden }) => {
               color={`black`}
               onClick={() => {
                 auth.signOut();
-                console.log("signed out!");
               }}
             />
           ) : null}

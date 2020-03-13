@@ -8,7 +8,6 @@ import {
 
 //  props : onChange, label, name, id, value, required, type
 const InputLabelAnimated = ({ label, value, ...props }) => {
-  console.log("value", value);
   return (
     <React.Fragment>
       <GroupContainer>

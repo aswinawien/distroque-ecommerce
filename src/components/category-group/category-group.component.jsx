@@ -9,7 +9,6 @@ import "./category-group.styles.scss";
 import { selectSections } from "../../redux/directory/directory.selectors";
 
 const CategoryGroup = ({ sections }) => {
-  console.log(sections);
   return (
     <React.Fragment>
       <div className="category-group">

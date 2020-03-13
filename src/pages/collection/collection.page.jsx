@@ -10,7 +10,6 @@ import "./collection.styles.scss";
 
 const CollectionPage = ({ collection }) => {
   const { title, items } = collection;
-  console.log(collection);
   return (
     <React.Fragment>
       <div className="collection-page">
