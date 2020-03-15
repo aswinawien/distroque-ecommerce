@@ -2,18 +2,10 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 
-import CollectionsGroup from "../../components/collections-group/collections-group.component";
-import WithSpinner from "../../components/with-spinner/with-spinner.component";
-import CollectionPage from "../collection/collection.page";
-import { addCollections } from "../../redux/shop/shop.actions";
+import CollectionsGroupContainer from "../../components/collections-group/collections-group.container";
+import CollectionPageContainer from "../collection/collection.container";
 
-import {
-  firestore,
-  convertCollectionsSnapshotToMap
-} from "../../firebase/firebase.utils";
-
-const CollectionGroupWithSpinner = WithSpinner(CollectionsGroup);
-const CollectionPageWithSpinner = WithSpinner(CollectionPage);
+import { fetchCollectionsStartAsync } from "../../redux/shop/shop.actions";
 
 class ShopPage extends React.Component {
   state = {
@@ -21,40 +13,22 @@ class ShopPage extends React.Component {
   };
 
   componentDidMount() {
-    const { addCollections } = this.props;
-    const collectionRef = firestore.collection(`collections`);
-    collectionRef
-      .get()
-      .then(async snapshot => {
-        const collectionsMap = await convertCollectionsSnapshotToMap(snapshot);
-        addCollections(collectionsMap);
-        this.setState({
-          loading: false
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    const { fetchCollectionsStartAsync } = this.props;
+    fetchCollectionsStartAsync();
   }
 
-  componentWillUnmount() {}
   render() {
     const { match } = this.props;
-    const { loading } = this.state;
     return (
       <React.Fragment>
         <Route
           exact
           path={`${match.path}`}
-          render={props => (
-            <CollectionGroupWithSpinner isLoading={loading} {...props} />
-          )}
+          component={CollectionsGroupContainer}
         />
         <Route
           path={`${match.path}/:collectionId`}
-          render={props => (
-            <CollectionPageWithSpinner isLoading={loading} {...props} />
-          )}
+          component={CollectionPageContainer}
         />
       </React.Fragment>
     );
@@ -62,7 +36,7 @@ class ShopPage extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addCollections: collectionsMap => dispatch(addCollections(collectionsMap))
+  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync())
 });
 
 export default connect(null, mapDispatchToProps)(ShopPage);
