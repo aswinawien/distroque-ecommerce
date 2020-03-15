@@ -1,6 +1,6 @@
 import * as actionTypes from "./shop.action-types";
 
-export const setMaxShow = item => ({
-  type: actionTypes.SET_MAX_SHOW,
-  payload: item
+export const addCollections = collectionsMap => ({
+  type: actionTypes.ADD_COLLECTIONS,
+  payload: collectionsMap
 });

@@ -1,1 +1,1 @@
-export const SET_MAX_SHOW = "SET_MAX_SHOW";
+export const ADD_COLLECTIONS = "ADD_COLLECTIONS";

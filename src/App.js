@@ -13,13 +13,9 @@ import SigInPage from "./pages/sign-in/sign-in.page";
 import SignUpPage from "./pages/sign-up/sign-up.page";
 import CheckoutPage from "./pages/checkout/checkout.page";
 
-import Footer from "./components/footer/footer.component";
-import CartModal from "./components/cart-modal/cart-modal.component";
-
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selector";
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -34,27 +30,20 @@ class App extends React.Component {
     this.unsubscribeAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth !== null) {
         const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot(snapshot => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data()
-          });
-        });
+        userRef.onSnapshot(
+          snapshot => {
+            setCurrentUser({
+              id: snapshot.id,
+              ...snapshot.data()
+            });
+          },
+          error => {
+            console.log(error);
+          }
+        );
       } else {
         setCurrentUser(null);
       }
-    });
-  }
-
-  handleOpenModalCart() {
-    this.setState({
-      openModal: true
-    });
-  }
-
-  handleCloseModalCart() {
-    this.setState({
-      openModal: false
     });
   }
 
@@ -65,7 +54,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <Header handleOpenModal={this.handleOpenModalCart.bind(this)} />
+        <Header />
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route path="/shop" component={ShopPage} />
