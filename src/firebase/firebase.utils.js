@@ -18,10 +18,10 @@ FirebaseApp.initializeApp(config);
 const auth = FirebaseApp.auth();
 const firestore = FirebaseApp.firestore();
 
-const provider = new FirebaseApp.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
+const googleProvider = new FirebaseApp.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
 const signInWithGoogle = () =>
-  auth.signInWithPopup(provider).then(res => {
+  auth.signInWithPopup(googleProvider).then(res => {
     window.location = "/";
   });
 
@@ -82,6 +82,7 @@ export {
   signInWithGoogle,
   createUserProfileDocument,
   // addCollectionAxndDocuments,
+  googleProvider,
   convertCollectionsSnapshotToMap
 };
 
