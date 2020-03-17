@@ -8,11 +8,11 @@ import "./header.styles.scss";
 import ButtonClear from "../button-clear/button-clear.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import CartIcon from "../cart-icon/cart-icon.component";
-import { auth } from "../../firebase/firebase.utils";
 import { selectCurrentUser } from "../../redux/user/user.selector";
 import { selectCartHidden } from "../../redux/cart/cart.selector";
+import { signOutStart } from "../../redux/user/user.actions";
 
-const Header = ({ currentUser, history, hidden }) => {
+const Header = ({ currentUser, history, hidden, signOutStart }) => {
   return (
     <React.Fragment>
       <div className="header">
@@ -49,9 +49,7 @@ const Header = ({ currentUser, history, hidden }) => {
             <ButtonClear
               title="Sign Out"
               color={`black`}
-              onClick={() => {
-                auth.signOut();
-              }}
+              onClick={signOutStart}
             />
           ) : null}
           <CartIcon />
@@ -62,9 +60,13 @@ const Header = ({ currentUser, history, hidden }) => {
   );
 };
 
+const mapDispatchToProps = dispatch => ({
+  signOutStart: () => dispatch(signOutStart())
+});
+
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   hidden: selectCartHidden
 });
 
-export default connect(mapStateToProps, null)(withRouter(Header));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

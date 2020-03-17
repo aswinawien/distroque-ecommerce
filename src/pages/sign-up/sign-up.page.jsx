@@ -1,9 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import "./sign-up.styles.scss";
 import InputLabelAnimated from "../../components/input-label-animated/input-label-animated.component";
 import SubmitButton from "../../components/submit-button/submit-button.component";
-import { createUserProfileDocument, auth } from "../../firebase/firebase.utils";
+import { signUpStart } from "../../redux/user/user.actions";
 
 class SignUpPage extends React.Component {
   constructor(props) {
@@ -19,37 +20,25 @@ class SignUpPage extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    const { password, confirmPassword, email, displayName } = this.state;
-    if (password !== confirmPassword) {
-      this.setState({
-        errorPassword: "Password must be matched!"
-      });
-      alert(this.state.errorPassword);
+    const { signUpStart } = this.props;
+    const { email, password, confirmPassword, displayName } = this.state;
+    if (confirmPassword !== password) {
+      alert("Password doesn't match!");
       return;
     }
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await createUserProfileDocument(user, { displayName });
-
-      this.setState({
-        displayName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        errorPassword: ""
-      });
-    } catch (e) {
-      console.error("create user email and password error", e.message);
-    }
+    signUpStart({ email, password, displayName });
+    this.setState({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      displayName: ""
+    });
   };
 
-  handleChange = event => {
-    const { name, value } = event.target;
+  handleChange = name => event => {
+    const { value } = event.target;
     this.setState({
-      [`${name}`]: value
+      [name]: value
     });
   };
 
@@ -61,7 +50,7 @@ class SignUpPage extends React.Component {
           <form>
             <InputLabelAnimated
               label={"displayName"}
-              onChange={this.handleChange.bind(this)}
+              onChange={this.handleChange("displayName")}
               name={"displayName"}
               required
               type={"text"}
@@ -70,7 +59,7 @@ class SignUpPage extends React.Component {
             />
             <InputLabelAnimated
               label={"Email"}
-              onChange={this.handleChange.bind(this)}
+              onChange={this.handleChange("email")}
               name={"email"}
               required
               type={"email"}
@@ -79,7 +68,7 @@ class SignUpPage extends React.Component {
             />
             <InputLabelAnimated
               label={"Password"}
-              onChange={this.handleChange.bind(this)}
+              onChange={this.handleChange("password")}
               name={"password"}
               required
               type={"password"}
@@ -88,7 +77,7 @@ class SignUpPage extends React.Component {
             />
             <InputLabelAnimated
               label={"Confirm Password"}
-              onChange={this.handleChange.bind(this)}
+              onChange={this.handleChange("confirmPassword")}
               name={"confirmPassword"}
               required
               type={"password"}
@@ -96,7 +85,7 @@ class SignUpPage extends React.Component {
               id={"confirm-password-input"}
             />
             <SubmitButton
-              onChange={this.handleSubmit.bind(this)}
+              onClick={this.handleSubmit.bind(this)}
               inverted={false}
               label="Sign Up"
             />
@@ -107,4 +96,8 @@ class SignUpPage extends React.Component {
   }
 }
 
-export default SignUpPage;
+const mapDispatchToProps = dispatch => ({
+  signUpStart: userCredentials => dispatch(signUpStart(userCredentials))
+});
+
+export default connect(null, mapDispatchToProps)(SignUpPage);
