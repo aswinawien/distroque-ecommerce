@@ -59,6 +59,16 @@ const createUserProfileDocument = async (userAuth, additionalData) => {
 //   });
 //   return await batch.commit();
 // };
+
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
+};
+
 const convertCollectionsSnapshotToMap = collections => {
   const transformedCollections = collections.docs.map(doc => {
     const { title, items } = doc.data();
@@ -82,6 +92,7 @@ export {
   signInWithGoogle,
   createUserProfileDocument,
   // addCollectionAxndDocuments,
+  getCurrentUser,
   googleProvider,
   convertCollectionsSnapshotToMap
 };
