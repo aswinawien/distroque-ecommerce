@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -15,46 +15,32 @@ import CheckoutPage from "./pages/checkout/checkout.page";
 
 import { selectCurrentUser } from "./redux/user/user.selector";
 import { checkUserSession } from "./redux/user/user.actions";
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      openModal: false
-    };
-  }
-
-  componentDidMount() {
-    const { checkUserSession } = this.props;
+const App = ({ checkUserSession, currentUser }) => {
+  useEffect(() => {
     checkUserSession();
-  }
+  }, [checkUserSession]);
 
-  render() {
-    return (
-      <div className="app">
-        <Header />
-        <Switch>
-          <Route path="/" exact component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route
-            exact
-            path="/sign-in"
-            render={() =>
-              this.props.currentUser ? <Redirect to="/" /> : <SigInPage />
-            }
-          />
-          <Route
-            exact
-            path="/sign-up"
-            render={() =>
-              this.props.currentUser ? <Redirect to="/" /> : <SignUpPage />
-            }
-          />
-          <Route path="/checkout" component={CheckoutPage} />
-        </Switch>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="app">
+      <Header />
+      <Switch>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/shop" component={ShopPage} />
+        <Route
+          exact
+          path="/sign-in"
+          render={() => (currentUser ? <Redirect to="/" /> : <SigInPage />)}
+        />
+        <Route
+          exact
+          path="/sign-up"
+          render={() => (currentUser ? <Redirect to="/" /> : <SignUpPage />)}
+        />
+        <Route path="/checkout" component={CheckoutPage} />
+      </Switch>
+    </div>
+  );
+};
 
 const mapDispatchToProps = dispatch => ({
   checkUserSession: () => dispatch(checkUserSession())
