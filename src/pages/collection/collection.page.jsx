@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
 import "./collection.styles.scss";
 
@@ -8,7 +8,11 @@ import ProductItem from "../../components/product-item/product-item.component";
 
 import "./collection.styles.scss";
 
-const CollectionPage = ({ collection }) => {
+const CollectionPage = ({ match }) => {
+  const collection = useSelector(state =>
+    selectCollection(match.params.collectionId)(state)
+  );
+  console.log("collection", collection);
   const { title, items } = collection;
   return (
     <React.Fragment>
@@ -24,8 +28,4 @@ const CollectionPage = ({ collection }) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  collection: selectCollection(ownProps.match.params.collectionId)(state)
-});
-
-export default connect(mapStateToProps)(CollectionPage);
+export default CollectionPage;
